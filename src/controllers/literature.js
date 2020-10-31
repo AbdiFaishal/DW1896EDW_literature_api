@@ -28,8 +28,8 @@ const literatureResponse = async (id) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const { title, public_year } = req.query;
-    console.log('title: ', title);
+    // const { title, public_year } = req.query;
+    // console.log('title: ', title);
 
     const literatures = await Literature.findAll({
       order: [['createdAt', 'DESC']],
