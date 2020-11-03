@@ -88,10 +88,10 @@ exports.changePhotoProfile = async (req, res) => {
     const avatarFile = req.file;
 
     // console.log('avatar: ', avatarFile);
-    const url = req.protocol + '://' + req.get('host');
+    // const url = req.protocol + '://' + req.get('host');
     const user = await User.update(
       {
-        avatar: `${url}/${req.file.path}`,
+        avatar: avatarFile.path,
       },
       {
         where: {
@@ -103,7 +103,7 @@ exports.changePhotoProfile = async (req, res) => {
     if (user[0]) {
       const user = await User.findOne({
         where: {
-          id: req.user.id,
+          id,
         },
         attributes: {
           exclude: ['createdAt', 'updatedAt', 'password', 'role'],

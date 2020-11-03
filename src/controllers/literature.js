@@ -234,12 +234,16 @@ exports.addLiterature = async (req, res) => {
   try {
     // console.log('REQ FILE: ', req.files);
     // console.log('req body: ', req.body);
+    // console.log('req body: ', req.body);
+    // console.log('files: ', req.files);
+
     const schema = joi.object({
       title: joi.string().min(5).required(),
       publication_date: joi.string().min(5).required(),
       pages: joi.string().required(),
       isbn: joi.string().required(),
       author: joi.string().min(3).required(),
+      // userId: joi.number().required(),
     });
 
     const { error } = schema.validate(req.body);
@@ -255,8 +259,8 @@ exports.addLiterature = async (req, res) => {
     const newLiterature = await Literature.create({
       ...req.body,
       userId: req.user.id,
-      attache: `${url}/${req.files.attache[0].path}`,
-      image: `${url}/${req.files.image[0].path}`,
+      attache: req.files.attache[0].path,
+      image: req.files.image[0].path,
     });
 
     const data = await Literature.findOne({

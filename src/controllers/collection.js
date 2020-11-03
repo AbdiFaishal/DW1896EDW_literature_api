@@ -41,7 +41,7 @@ exports.getAllCollections = async (req, res) => {
     if (!collections.length) {
       return res.status(404).send({
         error: {
-          message: `Collections with profile id of ${profile_id} does not exist`,
+          message: `User with id of ${profile_id} does not have any collections`,
         },
       });
     }

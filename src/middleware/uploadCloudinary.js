@@ -1,17 +1,24 @@
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('../../config/cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 exports.upload = (fieldName) => {
   // set storage
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      console.log('file', file);
-      cb(null, `public/${file.fieldname}s`);
-    },
-    filename: (req, file, cb) => {
-      const fileName = file.originalname.toLowerCase().split(' ').join('-');
-      // const extension = file.fieldname === 'attache' ? '.pdf' : '.png';
-      cb(null, Date.now() + '-' + fileName);
+  const storage = new CloudinaryStorage({
+    cloudinary,
+    params: (req, file) => {
+      const originalName = file.originalname.toLowerCase().split(' ').join('-');
+      const fileName = originalName.split('.');
+      const extension = fileName[fileName.length - 1];
+      console.log('fieldname: ', file);
+
+      return {
+        folder: `literature/${file.fieldname}s`,
+        resource_type: extension === 'pdf' ? 'raw' : 'image',
+        format: extension === 'pdf' ? 'pdf' : '',
+        public_id: Date.now() + '-' + fileName[0],
+      };
     },
   });
 
@@ -59,7 +66,7 @@ exports.upload = (fieldName) => {
       limits: {
         fileSize: 5 * 1000 * 1000,
       },
-    }).fields([{ name: 'image' }, { name: 'attache' }]);
+    }).fields([{ name: 'attache' }, { name: 'image' }]);
   }
 
   return (req, res, next) => {
