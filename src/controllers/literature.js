@@ -26,6 +26,7 @@ const literatureResponse = async (id) => {
   }
 };
 
+// Fetching all literatures no matter what status is (for Admin)
 exports.getAll = async (req, res) => {
   try {
     // const { title, public_year } = req.query;
@@ -49,13 +50,13 @@ exports.getAll = async (req, res) => {
 
     console.log('literatures: ', literatures);
 
-    if (!literatures.length) {
-      return res.status(404).send({
-        error: {
-          message,
-        },
-      });
-    }
+    // if (!literatures.length) {
+    //   return res.status(404).send({
+    //     error: {
+    //       message,
+    //     },
+    //   });
+    // }
 
     res.send({
       message: `Fetching all literature is success`,
@@ -70,6 +71,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
+// Fetching literatures in search and filter feature (for User)
 exports.getAllLiterature = async (req, res) => {
   try {
     const { title, year } = req.query;
@@ -88,8 +90,8 @@ exports.getAllLiterature = async (req, res) => {
     } else {
       searchData = {
         status: 'approved',
-        publication_date: {
-          [Op.substring]: year,
+        year: {
+          [Op.gte]: year,
         },
       };
       // searchData = {
@@ -124,6 +126,7 @@ exports.getAllLiterature = async (req, res) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId'],
       },
+      order: [['year', 'DESC']],
     });
 
     console.log('literatures: ', literatures);
@@ -151,6 +154,7 @@ exports.getAllLiterature = async (req, res) => {
   }
 };
 
+// Fetching all literatures that user uploaded (for Profile page)
 exports.getUserLiteratures = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -171,6 +175,7 @@ exports.getUserLiteratures = async (req, res) => {
           },
         },
       ],
+      order: [['createdAt', 'DESC']],
     });
 
     res.send({
@@ -234,7 +239,6 @@ exports.addLiterature = async (req, res) => {
   try {
     // console.log('REQ FILE: ', req.files);
     // console.log('req body: ', req.body);
-    // console.log('req body: ', req.body);
     // console.log('files: ', req.files);
 
     const schema = joi.object({
@@ -255,9 +259,12 @@ exports.addLiterature = async (req, res) => {
         },
       });
     }
-    const url = req.protocol + '://' + req.get('host');
+
+    const split = req.body.publication_date.split(' ');
+    const year = split[split.length - 1];
     const newLiterature = await Literature.create({
       ...req.body,
+      year,
       userId: req.user.id,
       attache: req.files.attache[0].path,
       image: req.files.image[0].path,
@@ -294,10 +301,11 @@ exports.addLiterature = async (req, res) => {
   }
 };
 
+// Update/edit literature status, verification done by Admin
 exports.literatureVerifAdmin = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log('body: ', req.body.status);
+    // console.log('body: ', req.body.status);
     const literature = await Literature.update(
       {
         status: req.body.status,
