@@ -26,7 +26,7 @@ const literatureResponse = async (id) => {
   }
 };
 
-// Fetching all literatures no matter what status is (for Admin)
+// Fetching all literatures no matter what the status is (for Admin)
 exports.getAll = async (req, res) => {
   try {
     // const { title, public_year } = req.query;
@@ -79,7 +79,26 @@ exports.getAllLiterature = async (req, res) => {
 
     let searchData = {};
     let message = '';
-    if (title) {
+    if (title && year) {
+      searchData = {
+        status: 'approved',
+        title: {
+          [Op.substring]: title,
+        },
+        year: {
+          [Op.gte]: year,
+        },
+      };
+      message = `Literature with title of '${title}' and publication year from '${year}' does not exist`;
+    } else if (year) {
+      searchData = {
+        status: 'approved',
+        year: {
+          [Op.gte]: year,
+        },
+      };
+      message = `Literature with publication year from '${year}' does not exist`;
+    } else if (title) {
       searchData = {
         status: 'approved',
         title: {
@@ -90,28 +109,9 @@ exports.getAllLiterature = async (req, res) => {
     } else {
       searchData = {
         status: 'approved',
-        year: {
-          [Op.gte]: year,
-        },
       };
-      // searchData = {
-      //   [Op.and]: [
-      //     {
-      //       status: 'approved',
-      //       title: {
-      //         [Op.substring]: title,
-      //       },
-      //     },
-      //     {
-      //       status: 'approved',
-      //       publication_date: {
-      //         [Op.substring]: year,
-      //       },
-      //     },
-      //   ],
-      // };
-      message = `Literature with publication year of '${year}' does not exist`;
     }
+
     const literatures = await Literature.findAll({
       where: searchData,
       include: [
