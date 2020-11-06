@@ -39,10 +39,14 @@ exports.getAllCollections = async (req, res) => {
 
     console.log('col: ', collections);
     if (!collections.length) {
-      return res.status(404).send({
-        error: {
-          message: `User with id of ${profile_id} does not have any collections`,
-        },
+      // return res.status(404).send({
+      //   error: {
+      //     message: `User with id of ${profile_id} does not have any collections`,
+      //   },
+      // });
+      return res.send({
+        message: 'User collections is empty',
+        data: collections,
       });
     }
     res.send({
@@ -70,7 +74,7 @@ exports.addCollection = async (req, res) => {
     });
     console.log('add collection: ', collection);
     res.send({
-      message: 'New collection has been successfully added',
+      message: '1 new collection has been added successfully.',
       data: collection,
     });
   } catch (err) {
@@ -96,13 +100,13 @@ exports.deleteCollection = async (req, res) => {
     if (!collection) {
       return res.status(404).send({
         error: {
-          message: 'Collection does not exist',
+          message: 'Collection does not exist.',
         },
       });
     }
 
     res.send({
-      message: 'Collection has been successfully deleted',
+      message: '1 collection has been deleted successfully.',
     });
     console.log('delete collection: ', collection);
   } catch (err) {

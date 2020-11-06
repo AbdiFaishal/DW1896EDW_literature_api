@@ -179,7 +179,7 @@ exports.getUserLiteratures = async (req, res) => {
     });
 
     res.send({
-      message: 'Fetching all literatures owned by user owned is success',
+      message: 'Fetching all literatures owned by user is success',
       data: literatures,
     });
   } catch (err) {
@@ -320,7 +320,7 @@ exports.literatureVerifAdmin = async (req, res) => {
 
     if (literature[0]) {
       res.send({
-        message: 'The literature has been successfully verified',
+        message: 'One literature has been successfully verified',
         data: newLiterature,
       });
     } else {

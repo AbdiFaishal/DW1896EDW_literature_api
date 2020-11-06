@@ -45,15 +45,15 @@ exports.register = async (req, res) => {
         'any.required': `"Gender" is not allowed to be empty`,
       }),
       phone: joi.number().min(10).required().messages({
-        'number.base': `"Phone" must be a number`,
         'number.empty': `"Phone" is not allowed to be empty`,
+        'number.base': `"Phone" must be a number`,
         'number.min': `"Phone" should have a minimum length of {#limit}`,
         'any.required': `"Phone" is not allowed to be empty`,
       }),
       address: joi.string().required().messages({
-        'string.base': `"Address" must be a number`,
-        'number.empty': `"Address" is not allowed to be empty`,
-        'string.min': `"Address" should have a minimum length of {#limit}`,
+        'string.empty': `"Address" is not allowed to be empty`,
+        // 'string.base': `"Address" must be a number`,
+        // 'string.min': `"Address" should have a minimum length of {#limit}`,
         'any.required': `"Address" is not allowed to be empty`,
       }),
     });
@@ -77,7 +77,7 @@ exports.register = async (req, res) => {
     if (checkEmail) {
       return res.status(400).send({
         error: {
-          message: 'Email already been registered',
+          message: 'This email is already registered.',
         },
       });
     }
@@ -142,7 +142,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(401).send({
         error: {
-          message: 'Email or Password is incorrect',
+          message: 'Incorrect email or password.',
         },
       });
     }
@@ -152,7 +152,7 @@ exports.login = async (req, res) => {
     if (!validPass) {
       return res.status(401).send({
         error: {
-          message: 'Email or Password is incorrect!',
+          message: 'Incorrect email or password.',
         },
       });
     }
