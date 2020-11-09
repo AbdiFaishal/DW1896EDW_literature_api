@@ -19,7 +19,7 @@ module.exports = {
           password:
             '$2b$10$6JSNuRWktgYAtFEeif7ynOwNoCkxddS/H7E7QMQKoZse5hxyHF/kW',
           fullName: 'Admin Ganteng',
-          gender: 'Male',
+          gender: 'male',
           phone: '081380809999',
           address: 'Indonesia',
           avatar: null,

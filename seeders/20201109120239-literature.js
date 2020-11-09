@@ -12,7 +12,7 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      'Literatures',
+      'Literature',
       [
         {
           title:
@@ -43,6 +43,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Literatures', null, {});
+    await queryInterface.bulkDelete('Literature', null, {});
   },
 };
