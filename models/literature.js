@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.STRING,
       attache: DataTypes.STRING,
       image: DataTypes.STRING,
+      year: DataTypes.INTEGER,
     },
     {
       sequelize,

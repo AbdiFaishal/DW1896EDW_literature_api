@@ -48,7 +48,7 @@ exports.getAll = async (req, res) => {
       },
     });
 
-    console.log('literatures: ', literatures);
+    // console.log('literatures: ', literatures);
 
     // if (!literatures.length) {
     //   return res.status(404).send({
@@ -75,7 +75,7 @@ exports.getAll = async (req, res) => {
 exports.getAllLiterature = async (req, res) => {
   try {
     const { title, year } = req.query;
-    console.log('req query: ', req.query);
+    // console.log('req query: ', req.query);
 
     let searchData = {};
     let message = '';
@@ -129,7 +129,7 @@ exports.getAllLiterature = async (req, res) => {
       order: [['year', 'DESC']],
     });
 
-    console.log('literatures: ', literatures);
+    // console.log('literatures: ', literatures);
 
     if (!literatures.length) {
       return res.status(404).send({
@@ -195,7 +195,7 @@ exports.getDetailLiterature = async (req, res) => {
   try {
     const { literature_id } = req.params;
 
-    console.log('id: ', literature_id);
+    // console.log('id: ', literature_id);
 
     const literature = await Literature.findOne({
       where: {
@@ -221,7 +221,7 @@ exports.getDetailLiterature = async (req, res) => {
       });
     }
 
-    console.log('detail: ', literature);
+    // console.log('detail: ', literature);
     res.send({
       message: 'Fetching detail literature is success',
       data: literature,
@@ -262,6 +262,8 @@ exports.addLiterature = async (req, res) => {
 
     const split = req.body.publication_date.split(' ');
     const year = split[split.length - 1];
+    // console.log('year: ', year);
+
     const newLiterature = await Literature.create({
       ...req.body,
       year,
@@ -364,7 +366,7 @@ exports.getAllFilter = async (req, res) => {
       },
     });
 
-    console.log('literatures: ', literatures);
+    // console.log('literatures: ', literatures);
 
     // if (!literatures.length) {
     //   return res.status(404).send({
