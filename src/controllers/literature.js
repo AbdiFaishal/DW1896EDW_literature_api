@@ -83,7 +83,7 @@ exports.getAllLiterature = async (req, res) => {
       searchData = {
         status: 'approved',
         title: {
-          [Op.substring]: title,
+          [Op.iLike]: title,
         },
         year: {
           [Op.gte]: year,
@@ -102,7 +102,7 @@ exports.getAllLiterature = async (req, res) => {
       searchData = {
         status: 'approved',
         title: {
-          [Op.like]: `%${title}%`,
+          [Op.iLike]: `${title}%`,
         },
       };
       message = `Literature with title of '${title}' does not exist`;
@@ -154,14 +154,14 @@ exports.getAllLiterature = async (req, res) => {
   }
 };
 
-// Fetching all literatures that user uploaded (for Profile page)
+// Fetching all literatures that user owned/uploaded (for Profile page)
 exports.getUserLiteratures = async (req, res) => {
   try {
     const userId = req.user.id;
     const literatures = await Literature.findAll({
       where: {
         userId,
-        status: { [Op.ne]: ['canceled'] },
+        status: { [Op.not]: ['canceled'] },
       },
       attributes: {
         exclude: ['userId', 'createdAt', 'updatedAt'],
