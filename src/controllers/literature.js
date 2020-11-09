@@ -332,7 +332,56 @@ exports.literatureVerifAdmin = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(400).json({
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+// Filter for Literature for admin
+exports.getAllFilter = async (req, res) => {
+  try {
+    // const { title, public_year } = req.query;
+    // console.log('title: ', title);
+    const status = req.params.status;
+    console.log('status: ', status);
+    const literatures = await Literature.findAll({
+      where: {
+        status,
+      },
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'password', 'role', 'avatar'],
+          },
+        },
+      ],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'userId'],
+      },
+    });
+
+    console.log('literatures: ', literatures);
+
+    // if (!literatures.length) {
+    //   return res.status(404).send({
+    //     error: {
+    //       message,
+    //     },
+    //   });
+    // }
+
+    res.send({
+      message: `Fetching all literature is success`,
+      data: literatures,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
       message: err.message,
     });
   }

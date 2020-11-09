@@ -9,6 +9,7 @@ const {
   getAll,
   getUserLiteratures,
   literatureVerifAdmin,
+  getAllFilter,
 } = require('../controllers/literature');
 // const { upload } = require('../middleware/uploadFile');
 const { upload } = require('../middleware/uploadCloudinary');
@@ -19,5 +20,7 @@ router.get('/my-literatures', isAuth, getUserLiteratures);
 router.get('/literature/:literature_id', isAuth, getDetailLiterature);
 router.post('/literature', isAuth, upload('literatureUpload'), addLiterature);
 router.patch('/literature-verif/:id', isAuth, isAdmin, literatureVerifAdmin);
+
+router.get('/literaturesFilter/:status', isAuth, getAllFilter);
 
 module.exports = router;
