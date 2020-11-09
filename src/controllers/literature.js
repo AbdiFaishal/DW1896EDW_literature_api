@@ -83,7 +83,7 @@ exports.getAllLiterature = async (req, res) => {
       searchData = {
         status: 'approved',
         title: {
-          [Op.iLike]: title,
+          [Op.iLike]: `%${title}%`,
         },
         year: {
           [Op.gte]: year,
@@ -346,7 +346,9 @@ exports.getAllFilter = async (req, res) => {
     // const { title, public_year } = req.query;
     // console.log('title: ', title);
     const status = req.params.status;
+
     console.log('status: ', status);
+
     const literatures = await Literature.findAll({
       where: {
         status,
@@ -367,14 +369,6 @@ exports.getAllFilter = async (req, res) => {
     });
 
     // console.log('literatures: ', literatures);
-
-    // if (!literatures.length) {
-    //   return res.status(404).send({
-    //     error: {
-    //       message,
-    //     },
-    //   });
-    // }
 
     res.send({
       message: `Fetching all literature is success`,
