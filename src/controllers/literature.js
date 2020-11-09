@@ -102,7 +102,7 @@ exports.getAllLiterature = async (req, res) => {
       searchData = {
         status: 'approved',
         title: {
-          [Op.iLike]: `${title}%`,
+          [Op.iLike]: `%${title}%`,
         },
       };
       message = `Literature with title of '${title}' does not exist`;
