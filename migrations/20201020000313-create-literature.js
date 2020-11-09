@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      tittle: {
+      title: {
         type: Sequelize.STRING,
       },
       userId: {
@@ -31,8 +31,19 @@ module.exports = {
       author: {
         type: Sequelize.STRING,
       },
+      image: {
+        type: Sequelize.STRING,
+      },
       attache: {
         type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'waiting',
+      },
+      year: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

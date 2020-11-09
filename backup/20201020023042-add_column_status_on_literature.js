@@ -11,7 +11,7 @@ module.exports = {
     await queryInterface.addColumn('Literature', 'status', {
       type: Sequelize.STRING,
       allowNull: false,
-      defaultValue: 'waiting approve',
+      defaultValue: 'waiting',
     });
   },
 
