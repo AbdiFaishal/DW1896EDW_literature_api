@@ -21,6 +21,6 @@ router.get('/literature/:literature_id', isAuth, getDetailLiterature);
 router.post('/literature', isAuth, upload('literatureUpload'), addLiterature);
 router.patch('/literature-verif/:id', isAuth, isAdmin, literatureVerifAdmin);
 
-router.get('/literaturesFilter/:status', isAuth, getAllFilter);
+router.get('/literatures-filter/:status', isAuth, getAllFilter);
 
 module.exports = router;

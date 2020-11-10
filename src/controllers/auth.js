@@ -164,7 +164,7 @@ exports.login = async (req, res) => {
       jwtkey
     );
     res.send({
-      message: 'Login Success',
+      message: 'Login success',
       data: {
         email: user.email,
         token,
